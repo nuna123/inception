@@ -122,15 +122,16 @@ ________________________________________________________________________________
 ___________________________________________________________________________________________________________________________________________________________________________
 
 NOTES:
-	-only users in the 'docker' user grouo have access to the Docker deamon socket. by default only sudo and docker are added, personal user might need to be added with [sudo usermod -aG docker $USER] then either reset ubuntu, or run [newgrp docker] which will open a new terminal, iin which the current user's primary grouo is the specified one. ie docker. (TEMP solution that will only last for the current terminal)
+	-only users in the 'docker' user group have access to the Docker deamon socket. by default only sudo and docker are added, personal user might need to be added with [sudo usermod -aG docker $USER] then either relog into ubuntu, or run [newgrp docker] which will open a new terminal, in which the current user's primary group is the specified one. ie docker. (TEMP solution that will only last for the current terminal)
 
 
 
 
 
+___________________________
 
 NGINX container
-______________________________________________________________
+___________________________
 
 Dockerfile:
 The container is based on Debian, the panultimate stable version is by default called OLDSTABLE.
@@ -168,6 +169,13 @@ server{
 
 	server_name localhost;								-> defines where to use the certificate. 
 	root /var/www/html;									-> root folder of the site.
+
+	location ~ \.php$ { 								-> basically, the location of all PHP files
+	include snippets/fastcgi-php.conf;					-> include fastcgi code
+	fastcgi_pass wordpress:9000;						-> pass-redirect to- [HOST]:[PORT]. the 'wordpress' server on Port 9000,
+															which is defined by the pdf for nginx-wp communication.
+	}
+
 }
 
 //OTHER STUFF
@@ -187,4 +195,43 @@ $>	docker run -d --rm  -p 443:443 --name nginx_cont myimg:latest
 $>	curl -k -I -v --tlsv1.2 --tls-max 1.3 https://localhost:443 //should work
 $>	curl -k -I -v --tlsv1 --tls-max 1.1 https://localhost:443 //should NOT work
 
+_________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________
+
+To connect NGINX to Wordpress:
+nginx can't process php requests - which wordpress uses. FastCGI()
+
+	FASTCGI----------------------------------------------------------------------------------------------
+	|	https://www.reddit.com/r/webdev/comments/ulvk8/can_anyone_explain_like_i_am_5_what_is_fastcgi/	|
+	|	In a nutshell, both CGI (Common Gateway Interface) and FastCGI just describe how to pass		|
+	|	a bunch of values - such as HTTP headers, the request body and client input — to the			|
+	|	server-side part of your website.																|
+	-----------------------------------------------------------------------------------------------------
+
+the subject says Wordpress needs to use PHP-FPM.
+https://medium.com/@miladev95/cgi-vs-fastcgi-vs-php-fpm-afbc5a886d6d
+
+	PHP-FPM----------------------------------------------------------------------------------------------
+	|	PHP-FPM (FastCGI Process Manager) is an alternative to FastCGI implementation of PHP with some	|
+	|	additional features useful for sites with high traffic. It is the preferred method of processing|
+	|	PHP pages with NGINX and is faster than traditional CGI based methods such as SUPHP or mod_php	|
+	|	for running a PHP script.																		|
+	-----------------------------------------------------------------------------------------------------
+
+
+	To make sure PHP requests to nginx server get redirected to wordpress, this nginx directive needs to be added:
+
+location ~ \.php$ { 					#basically, the location of all PHP files
+	include snippets/fastcgi-php.conf;	#include fastcgi code
+	fastcgi_pass wordpress:9000;		#pass-redirect to- [HOST]:[PORT]. the 'wordpress' server on Port 9000, which is defined by the pdf for nginx-wp communication.
+	}
+_________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________
+____________________
+
+Wordpress Container
+____________________
+
+The guide I followed sets up MariaDB after Nginx, but ill give wordpress a go. 
+Right now nginx needs to know to redirect all php requests to the wordpress server, then the wordpress and nginx servers need to be connected through a bridge network.
 

@@ -20,7 +20,7 @@ RUN openssl req -x509 -nodes \
 # COPY conf/nginx.conf /etc/nginx/sites-enabled/my_conf.conf
 COPY conf/my_nginx.conf /etc/nginx/nginx.conf
 
-COPY ./index.html /usr/share/nginx/html
+COPY ./index.html /var/www/html/index.html
 # COPY ./nginx_server.conf /etc/nginx/nginx_server.conf
 
 # #the only port allowed
