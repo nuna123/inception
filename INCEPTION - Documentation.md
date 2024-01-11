@@ -167,7 +167,7 @@ server{
 	ssl_certificate /etc/nginx/ssl/inception.crt;		-> use the generated certificate
 	ssl_certificate_key /etc/nginx/ssl/inception.key;	-> use the generated private key
 
-	server_name localhost;								-> defines where to use the certificate. 
+	server_name localhost;								-> defines where to use the certificate.
 	root /var/www/html;									-> root folder of the site.
 
 	location ~ \.php$ { 								-> basically, the location of all PHP files
@@ -232,6 +232,10 @@ ____________________
 Wordpress Container
 ____________________
 
-The guide I followed sets up MariaDB after Nginx, but ill give wordpress a go. 
+The guide I followed sets up MariaDB after Nginx, but ill give wordpress a go.
 Right now nginx needs to know to redirect all php requests to the wordpress server, then the wordpress and nginx servers need to be connected through a bridge network.
 
+
+
+####the solution to all my problems??
+https://freedium.cfd/https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
