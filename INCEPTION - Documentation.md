@@ -238,4 +238,4 @@ Right now nginx needs to know to redirect all php requests to the wordpress serv
 
 
 ####the solution to all my problems??
-https://freedium.cfd/https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
+https://medium-parser-seven.vercel.app/?url=https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
