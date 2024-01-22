@@ -1,7 +1,7 @@
 FROM debian:oldstable
 
 #install nginx and openssl
-RUN apt-get -y update 
+RUN apt-get -y update
 RUN apt-get -y install nginx
 RUN apt-get install openssl -y
 
@@ -16,12 +16,12 @@ RUN openssl req -x509 -nodes \
 	-subj "/CN=MY_CERT/C=CZ/L=Praga/O=42/OU=42/UID=nroth"
 
 #copy my conf file into the nginx folder.
-#by default any .conf file in /etc/nginx is used
-# COPY conf/nginx.conf /etc/nginx/sites-enabled/my_conf.conf
-COPY conf/my_nginx.conf /etc/nginx/nginx.conf
+#the file location is from the default nginx conf file at /etc/nginx/nginx.conf
+#include line says:include /etc/nginx/sites-enabled/*;
 
-COPY ./index.html /var/www/html/index.html
-# COPY ./nginx_server.conf /etc/nginx/nginx_server.conf
+# COPY conf/nginx.conf /etc/nginx/sites-enabled/my_conf.conf
+COPY conf/mynginxserver.conf /etc/nginx/sites-enabled/myconfig.conf
+
 
 # #the only port allowed
 EXPOSE	443
