@@ -28,7 +28,8 @@ services:
   wordpress:
     container_name: wordpress
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_started
     build:
       context: ./srcs/wordpress
       dockerfile: Dockerfile

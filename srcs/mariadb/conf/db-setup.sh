@@ -3,17 +3,29 @@
 # Start the MySQL service
 service mysql start
 
-# Create the db1.sql file with commands
-# (we cannot read environment variables in the mysql command directly)
-echo "CREATE DATABASE IF NOT EXISTS $DB_NAME ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' ;" >> db1.sql
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD' ;" >> db1.sql
-echo "FLUSH PRIVILEGES;" >> db1.sql
 
+touch myscript.sql
+
+echo "CREATE DATABASE IF NOT EXISTS $DB_NAME;
+
+CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
+
+GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
+GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
+FLUSH PRIVILEGES;" \
+	> myscript.sql
+
+
+# Print the contents of the myscript.sql for debugging
+echo "Contents of myscript.sql:"
+cat myscript.sql
+
+# Sleep for a short while to allow a human to read the printed script
+sleep 10
 
 # Execute the SQL script
-mysql < db1.sql
+mysql < myscript.sql
 
 # Stop the MySQL service by killing the mysqld process
 kill $(cat /var/run/mysqld/mysqld.pid)
