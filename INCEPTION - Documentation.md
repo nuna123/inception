@@ -91,6 +91,7 @@ Docker commands:
 					[docker rm $(docker ps -a -q -f status=exited)] will close all exited containers.
 
 	- rmi		: can be used to delete images
+	- system prune		: removes EVERYTHINH cleans the system of docker remanents
 
 
 
@@ -146,9 +147,8 @@ creating a folder for my SSL certificate and generating it:
 		keyout - path for the PRIVATE KEY
 		subj - the SSL cert demands some info about the owner, openssl by default opens a dialog for the info but [docker build] wont run if prompted for info. this gives all that info within the command to not be prompted.
 
-Rewriting the default NGINX config file to include my changes to the default server (using generated SSL cert, listening on port 443...)
-
-copying my index.html to the nginx server.
+by looking at the default nginx config at /etc/nginx/nginx.conf, it includes all config files at [/etc/nginx/sites-enabled/*;]
+adding my config file to that folder. (using generated SSL cert, listening on port 443...)
 
 EXPOSE:
 	https://we-are.bookmyshow.com/understanding-expose-in-dockerfile-266938b6a33d
@@ -239,3 +239,6 @@ Right now nginx needs to know to redirect all php requests to the wordpress serv
 
 ####the solution to all my problems??
 https://medium-parser-seven.vercel.app/?url=https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
+
+
+https://kinsta.com/blog/docker-compose-volumes/#what-are-docker-volumes
