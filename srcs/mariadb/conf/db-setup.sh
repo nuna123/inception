@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Start the MySQL service
+# Start the MySQL service to be able to run the script
 service mysql start
 
 
@@ -16,19 +16,11 @@ GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'root'@'localhost' IDENTIFIED BY '$DB_ROOT
 FLUSH PRIVILEGES;" \
 	> myscript.sql
 
-
-# Print the contents of the myscript.sql for debugging
-echo "Contents of myscript.sql:"
-cat myscript.sql
-
-# Sleep for a short while to allow a human to read the printed script
-sleep 10
-
 # Execute the SQL script
 mysql < myscript.sql
 
-# Stop the MySQL service by killing the mysqld process
-kill $(cat /var/run/mysqld/mysqld.pid)
+# Stop the MySQL service
+service mysql stop
 
-# Start the mysqld process in the foreground (daemon) to keep the container running
+# Start the mysqld deamon in the foreground to keep the container running
 mysqld
