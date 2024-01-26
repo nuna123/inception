@@ -5,7 +5,12 @@ FROM debian:buster
 RUN apt-get update && apt-get install -y mariadb-server
 
 # Copy the configurations and script
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+# COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+
+##TEST
+COPY ./conf/my.cnf /etc/mysql/
+##
+
 COPY ./conf/setup.sh /usr/local/bin/setup.sh
 
 # Make the script executable
