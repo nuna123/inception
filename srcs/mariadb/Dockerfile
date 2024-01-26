@@ -5,10 +5,10 @@ FROM debian:buster
 RUN apt-get update && apt-get install -y mariadb-server
 
 # Copy the configurations and script
-# COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
 ##TEST
-COPY ./conf/my.cnf /etc/mysql/
+# COPY ./conf/my.cnf /etc/mysql/
 ##
 
 COPY ./conf/setup.sh /usr/local/bin/setup.sh
@@ -20,7 +20,7 @@ RUN chmod +x /usr/local/bin/setup.sh
 EXPOSE 3306
 
 # Set the entrypoint to the database setup script
-ENTRYPOINT ["setup.sh"]
+# ENTRYPOINT ["setup.sh"]
 
 # By default, start mysqld_safe (This will be run by the db-setup.sh script)
 CMD ["mysqld_safe"]
