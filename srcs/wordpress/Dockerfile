@@ -3,22 +3,23 @@ FROM debian:buster
 RUN apt-get -y update
 
 #install php-fpm
-# RUN apt-get -y install \
-# 	curl \
-# 	php \
-# 	php-cgi \
-# 	php-mysql \
-# 	php-fpm \
-# 	php-pdo \
-# 	php-gd php-cli \
-# 	php-mbstring \
-# 	redis \
-# 	php-redis \
-# 	&& rm -rf /var/lib/apt/lists/*
+RUN apt-get -y install \
+	wget \
+	curl \
+	php \
+	php-cgi \
+	php-mysql \
+	php-fpm \
+	php-pdo \
+	php-gd php-cli \
+	php-mbstring \
+	redis \
+	php-redis \
+	&& rm -rf /var/lib/apt/lists/*
 
-RUN apt install php php-fpm php-mysql -y
+# RUN apt install php php-fpm php-mysql -y
 
-RUN apt install curl -y
+# RUN apt install curl -y
 
 
 # install wp-cli (command line interface)
@@ -26,7 +27,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # To be able to type just wp, instead of php wp-cli.phar, you need to make the
 #	file executable and move it to somewhere in your PATH.
 RUN chmod +x wp-cli.phar \
-	&& cp wp-cli.phar /usr/local/bin/wp
+	&& cp wp-cli.phar /usr/local/bin/wp \
+	&& cp wp-cli.phar /usr/local/bin/wp.phar
 
 #custom config file for php-fpm
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/

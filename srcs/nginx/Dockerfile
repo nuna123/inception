@@ -25,5 +25,6 @@ COPY conf/mynginxserver.conf /etc/nginx/sites-enabled/myconfig.conf
 
 # #the only port allowed
 EXPOSE	443
+RUN echo "nginx ready!"
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

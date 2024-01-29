@@ -20,7 +20,7 @@ RUN chmod +x /usr/local/bin/setup.sh
 EXPOSE 3306
 
 # Set the entrypoint to the database setup script
-# ENTRYPOINT ["setup.sh"]
+ENTRYPOINT ["setup.sh"]
 
 # By default, start mysqld_safe (This will be run by the db-setup.sh script)
 CMD ["mysqld_safe"]
