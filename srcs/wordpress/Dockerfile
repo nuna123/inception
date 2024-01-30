@@ -4,7 +4,6 @@ RUN apt-get -y update
 
 #install php-fpm
 RUN apt-get -y install \
-	wget \
 	curl \
 	php \
 	php-cgi \
@@ -16,11 +15,6 @@ RUN apt-get -y install \
 	redis \
 	php-redis \
 	&& rm -rf /var/lib/apt/lists/*
-
-# RUN apt install php php-fpm php-mysql -y
-
-# RUN apt install curl -y
-
 
 # install wp-cli (command line interface)
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -35,7 +29,7 @@ COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
 #This script has to run only after mariaDB is build,Otherwise WP cant find the database host and freaks out,
 #THEREFORE - PUT IN SEPARATE SCRIPT AND RUN ON 'UP' AND NOT ON 'BUILD'
-COPY ./wp_setup.sh /usr/local/bin/
+COPY ./conf/wp_setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/wp_setup.sh
 ENTRYPOINT ["/usr/local/bin/wp_setup.sh"]
 	#makes sure the script runs from here

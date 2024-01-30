@@ -6,8 +6,7 @@
 ##update: now it does???? a miracle
 ## update: doesnt
 ## update: does. the problem is somewhere else
-
-
+## doesnt ugh
 
 # Creates the config file for wordpress if not created already
 # the config file needs to be created only on the first run,
@@ -26,6 +25,10 @@ then
 	echo "wp -3/3-"
 fi
 echo "Wordpress up!"
-# something with signaling? idk but best practice is to add
-## it at the end of entrypoint script
+
+#$@: basically takes any command line arguments passed to entrypoint.sh
+	# and execs them as a command.
+	# The intention is basically "Do everything in this .sh script,
+	# then in the same shell run the command the user passes in on the
+	# command line".
 exec "$@"

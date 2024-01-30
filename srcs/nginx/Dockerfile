@@ -2,8 +2,7 @@ FROM debian:oldstable
 
 #install nginx and openssl
 RUN apt-get -y update
-RUN apt-get -y install nginx
-RUN apt-get install openssl -y
+RUN apt-get -y install nginx openssl
 
 #generate ssl certificates in set directory
 	#req - create certificates
@@ -18,12 +17,10 @@ RUN openssl req -x509 -nodes \
 #copy my conf file into the nginx folder.
 #the file location is from the default nginx conf file at /etc/nginx/nginx.conf
 #include line says:include /etc/nginx/sites-enabled/*;
-
-# COPY conf/nginx.conf /etc/nginx/sites-enabled/my_conf.conf
 COPY conf/mynginxserver.conf /etc/nginx/sites-enabled/myconfig.conf
 
 
-COPY ./entrypnt.sh /usr/local/bin/entrypnt.sh
+COPY ./conf/entrypnt.sh /usr/local/bin/entrypnt.sh
 # Make the script executable
 RUN chmod +x /usr/local/bin/entrypnt.sh
 ENTRYPOINT ["entrypnt.sh"]

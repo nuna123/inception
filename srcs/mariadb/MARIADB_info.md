@@ -1,26 +1,29 @@
-MARIADB:
-	MariaDB is a modified version of MySQL. It evolved, and offers all the functionality of MySQL, plus added features. It became a default Database solution for many CMS (content managemystems), including Wordpress.
+**MARIADB:**
+
+	MariaDB is a modified version of MySQL. It evolved, and offers all the functionality of MySQL plus added features. It became a default Database solution for many CMS (content management systems), including Wordpress.
 	More info about differences:
 		https://www.cloudways.com/blog/mariadb-vs-mysql
 
-Needs to be done:
+**Needs to be done:**
 	create a Databse, with one admin and one user.
 	Expect connection on port 3306 from wordpress container.
 
 
-Dockerfile:
+**Dockerfile:**
 	pretty straight forward, install everything, expose port...
 
-./conf/setup.sh
-	creates myscipt.sql, which initializes the actual database and users.
-	It is generated from a shell script to allow environment variables.
+**./conf/setup.sh**
+	• start the mysql service in order to be able to run the mysql script.
+	• creates myscipt.sql, which initializes the actual database and users.
+		It is generated from a shell script to allow environment variables.
+	• execute the script as root. by default the root's password isnt set which allows to log in as root without password.
+	• Stop the mysql service in order to run mysql_safe in foreground. using [service mysql stop] gives an error bc it should apparently be run as root so its better to violently kill it.
+		--edit: that doesnt make any sense. there isnt root in the container. too late to change
+	• create the healthcheck file. a stupid solution but it works lol.
+	• run the actual foreground process that keeps the container running.
 
-
-server config:
+**server config:**
+***Gets copied to /etc/mysql/mariadb.conf.d/50-server.cnf even though online it says default config of the mysql deamon needs to be in /etc/mysql/my.cnf. It didnt work when i copied it there, idfk***
 	set up port to  3306 => commented by default
-	set up bind-address to local computer
-		The address you specify in bind tells MySQL where to listen. Only client software which is able to open a connection to the server using the same address that is specified in the 'bind' option will be allowed to connect.
-		If MySQL binds to 127.0.0.1, then only software on the same computer will be able to connect (because 127.0.0.1 is always the local computer).
 
-Skip-networking in MySQL
-It disables TCP/IP networking for MySQL, ensuring the server only accepts connections from clients running on the same host.
+
