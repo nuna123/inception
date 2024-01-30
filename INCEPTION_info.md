@@ -59,3 +59,19 @@ hopefully to help me understand what to
 	• A docker-network that establishes the connection between your containers.
 		a bridge network - which lets containers connected to the same bridge network communicate, while providing isolation from containers that aren't connected to that bridge network.
 
+
+**docker compose YML**
+
+***healthchecks and dependency***
+	The containers depend on eachother, if nginx is starts before wordpress, it has problems initializing.
+	If wordpress starts before the mysql service in mariadb, the command which initializes wp-config.php fails because it cant access the database host.
+
+	healthcheck is a command that runs every defined amount of time, and sets the container's status as healthy when it returns with 0 status code.
+	then setting
+	depends_on:
+      [container]:
+        condition: service_healthy
+	makes the container initialize only when the dependency is healthy.
+
+	the healthcheck for wordpress makes sure the wp-config.php file was initialized.
+	for mariadb its a lil fake, the setup script creates a healthcheck.txt which the healthcheck looks for.
