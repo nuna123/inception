@@ -3,10 +3,10 @@
 
 # NOTE: [wp config create] doesnt work for some reason,
 ## but does work with the actual executable. idfk
+##update: now it does???? a miracle
 ## update: doesnt
 ## update: does. the problem is somewhere else
 
-##update: now it does???? a miracle
 
 
 # Creates the config file for wordpress if not created already
@@ -25,7 +25,7 @@ then
 		--allow-root
 	echo "wp -3/3-"
 fi
-
+echo "Wordpress up!"
 # something with signaling? idk but best practice is to add
 ## it at the end of entrypoint script
 exec "$@"

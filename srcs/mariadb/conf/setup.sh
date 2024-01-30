@@ -4,7 +4,7 @@
 # ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
 # GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
 # Start the MySQL service to be able to run the script
-echo "mdb -1-"
+echo "mdb -1/5-"
 service mysql start
 
 # ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD' ;
@@ -15,24 +15,23 @@ GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' ;
 FLUSH PRIVILEGES;" \
 	> myscript.sql
 
-echo "mdb -2-"
+echo "mdb -2/5-"
 
-cat myscript.sql
+# cat myscript.sql
 # Execute the SQL script
 # mysql --user=root --password=$DB_ROOT_PASSWORD < myscript.sql
-sleep 10
+sleep 1
 mysql -u root < myscript.sql
-mysqlshow -u root
-echo "mdb -3-"
+echo "mdb -3/5-"
 
 
 # Stop the MySQL service
 # service mysql stop
 kill $(cat /var/run/mysqld/mysqld.pid)
-echo "mdb -4-"
+echo "mdb -4/5-"
 
 touch healthcheck.txt
-echo "mdb -5-"
+echo "mdb -5/5-"
 
 # Start the mysqld deamon in the foreground to keep the container running
 mysqld_safe
