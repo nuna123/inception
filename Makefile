@@ -1,7 +1,18 @@
+
+build:
+	docker compose -f $(SRC) build
+
+up: build
+	docker compose -f $(SRC) up -d
+
+
+
+
+
 deletevol:
 	sudo rm -rf ~/data/wordpress/* && sudo rm -rf ~/data/mysql/*
 
-clean:
+clean: deletevol
 	docker system prune -f
 
-all: clean deletevol
+all: clean deletevol up
