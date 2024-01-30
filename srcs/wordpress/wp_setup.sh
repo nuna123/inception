@@ -14,16 +14,16 @@
 ## it may already be initialized in the volume.
 if [ ! -f ./wp-config.php ]
 then
-	echo "wp -1-"
+	echo "wp -1/3-"
 	wp core download --allow-root
-	echo "wp -2-"
+	echo "wp -2/3-"
 	/usr/local/bin/wp.phar config create \
 		--dbhost=$DB_HOST \
 		--dbname=$DB_NAME \
 		--dbuser=$DB_USER \
 		--dbpass=$DB_PASSWORD \
 		--allow-root
-	echo "wp -3-"
+	echo "wp -3/3-"
 fi
 
 # something with signaling? idk but best practice is to add

@@ -23,8 +23,12 @@ RUN openssl req -x509 -nodes \
 COPY conf/mynginxserver.conf /etc/nginx/sites-enabled/myconfig.conf
 
 
+COPY ./entrypnt.sh /usr/local/bin/entrypnt.sh
+# Make the script executable
+RUN chmod +x /usr/local/bin/entrypnt.sh
+ENTRYPOINT ["entrypnt.sh"]
+
 # #the only port allowed
 EXPOSE	443
-RUN echo "nginx ready!"
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

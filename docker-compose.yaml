@@ -7,7 +7,8 @@ services:
     ports:
         - 443:443
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     volumes:
       - wordpress_data:/var/www/html
     restart: always
@@ -22,17 +23,19 @@ services:
     networks:
       - inception_network
     restart: always
-    healthcheck:
-      test: echo "hi"  && (mysqlshow -u root | grep wordpress)
-      interval: 2s
     env_file:
       - .env
+    healthcheck:
+      test: find healthcheck.txt
+      interval: 2s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
 
   wordpress:
     container_name: wordpress
-    depends_on:
-      mariadb:
-        condition: service_healthy
     build:
       context: ./srcs/wordpress
       dockerfile: Dockerfile
@@ -43,6 +46,16 @@ services:
       - wordpress_data:/var/www/html
     networks:
       - inception_network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: find wp-config.php
+      interval: 2s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
 
 # volumes are stored on the host machine, and are mounted into the
 ## containers in a specified directory.
@@ -51,13 +64,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/nroth/data/mysql2
+      device: /home/nroth/data/mysql
       o: bind
   wordpress_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/nroth/data/wordpress2
+      device: /home/nroth/data/wordpress
       o: bind
 
 #the network connecting the containers.
