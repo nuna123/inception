@@ -1,9 +1,18 @@
 version: '3'
 
+# before initializing:
+#   make sure volume folders exist: /home/nroth/wordpress,  /home/nroth/mysql
+#   if no env file: init one with
+    # DB_HOST: name of mariadb container
+    # DB_NAME: name of wordpress database
+    # DB_USER: username
+    # DB_PASSWRD: password for the user
+    # DB_ROOT_PASSWRD: password for the root
+
 services:
   nginx:
     container_name: nginx
-    build: ./srcs/nginx
+    build: ./requirements/nginx
     ports:
         - 443:443
     depends_on:
@@ -17,7 +26,7 @@ services:
 
   mariadb:
     container_name: mariadb
-    build: ./srcs/mariadb
+    build: ./requirements/mariadb
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -37,7 +46,7 @@ services:
   wordpress:
     container_name: wordpress
     build:
-      context: ./srcs/wordpress
+      context: ./requirements/wordpress
       dockerfile: Dockerfile
     restart: always
     env_file:

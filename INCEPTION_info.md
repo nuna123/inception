@@ -1,5 +1,5 @@
 INCEPTION - Documentation
-hopefully to help me understand what to
+hopefully to help me understand what tf is happening
 
 -------------------------------------------------------------------------------------------
 	Docker tutorial, goes over basic docker commands, terminology, images and dockefiles
@@ -75,3 +75,5 @@ hopefully to help me understand what to
 
 	the healthcheck for wordpress makes sure the wp-config.php file was initialized.
 	for mariadb its a lil fake, the setup script creates a healthcheck.txt which the healthcheck looks for.
+
+
