@@ -25,3 +25,14 @@
 	• if wp-config does not already exist, download wordpress and init it with the correct database which will be hosted on the mariadb container.
 **./conf/www.conf**
 	The php fpm config file. set up to listen on 9000. The original www.conf is there for reference.
+
+
+**NOTE**
+in a lot of other gits, the creators dont use a dependency on the Mariadb container.
+This is because they also manually download the wordpress ZIP and extract it rather than use [wp core download]. This takes much more time, which allows Mariadb to initialize.
+If the dependancy and health check isnt used when using this method, then
+	Mariadb doesnt have time to initialize the socket,
+	database can't be reached
+	so WP doesn't create the wp-config file (which doesn't actually crashes the container, so it doesn't restart)
+	and an error page appears on the website.
+
