@@ -36,3 +36,5 @@ If the dependancy and health check isnt used when using this method, then
 	so WP doesn't create the wp-config file (which doesn't actually crashes the container, so it doesn't restart)
 	and an error page appears on the website.
 
+--ig it'd be possible to add an if statement to check if the file was initiated, then exit with 1 if not, which would cause the container to restart and give mariaDB time to initialize. makes more sense than a whole ass healthcheck. huh
+

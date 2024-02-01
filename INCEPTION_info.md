@@ -77,3 +77,4 @@ hopefully to help me understand what tf is happening
 	for mariadb its a lil fake, the setup script creates a healthcheck.txt which the healthcheck looks for.
 
 
+Dear diary, this project kinda sucks
