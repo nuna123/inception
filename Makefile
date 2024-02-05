@@ -23,12 +23,21 @@ build: check_env
 up:
 	docker compose -f ${SRC} up
 
+down:
+	docker compose -f ${SRC} down
+
 deletevol:
 	sudo rm -rf ~/data/wordpress/* && sudo rm -rf ~/data/mysql/*
 
 clean:
 	docker system prune -f
 
-fclean: deletevol clean
+fclean: deletevol
+	docker system prune -fa
 
 re: clean deletevol ${NAME}
+
+
+# docker rmi $(docker images -q) -f
+# docker rm $(docker ps -aq)
+# docker volume rm $(docker volume ls -q)

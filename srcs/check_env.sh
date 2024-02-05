@@ -1,4 +1,16 @@
 #!/bin/sh
+echo "looking for volume folders..."
+
+if	test -d ~/data && \
+	test -d ~/data/mysql && \
+	test -d ~/data/wordpress
+then
+	echo "folders found!"
+else
+	echo "please create /home/nroth/data/mysql and /home/nroth/data/mysql!"
+	exit 1
+fi
+
 echo "looking for ./srcs/.env file..."
 
 if [ ! -f ./srcs/.env ]
