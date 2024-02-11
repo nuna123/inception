@@ -1,5 +1,4 @@
 **WP / PHP:**
-
 	Wordpress is a CMS - content management system that helps manage websites. it used PHP and Mariadb.
 	PHP is a general-usage language geared towards web development. It sucks.
 	PHP FPM (FastCGI Process Manager) is used as part of a solution to connect nginx and wp. nginx doesnt understand php, so it sends requests with FastCGI.
@@ -38,3 +37,4 @@ If the dependancy and health check isnt used when using this method, then
 
 --ig it'd be possible to add an if statement to check if the file was initiated, then exit with 1 if not, which would cause the container to restart and give mariaDB time to initialize. makes more sense than a whole ass healthcheck. huh
 
+NOTE: in the evaluation sheet, it says a user has to be created but i figured it meant the database user. nope, the actual site has to be installed and a user created. yay!

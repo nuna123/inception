@@ -13,16 +13,29 @@
 ## it may already be initialized in the volume.
 if [ ! -f ./wp-config.php ]
 then
-	echo "wp -1/3-"
+	echo "wp -1/5-"
 	wp core download --allow-root
-	echo "wp -2/3-"
-	/usr/local/bin/wp.phar config create \
+	echo "wp -2/5-"
+	wp config create \
 		--dbhost=$DB_HOST \
 		--dbname=$DB_NAME \
 		--dbuser=$DB_USER \
 		--dbpass=$DB_PASSWORD \
 		--allow-root
-	echo "wp -3/3-"
+	echo "wp -3/5-"
+	wp core install\
+		--url=$DOMAIN_NAME \
+		--title="$WP_SITENAME" \
+		--admin_user=$WP_ADMIN \
+		--admin_password=$WP_ADMINPASS \
+		--admin_email=$WP_ADMIN"@"$DOMAIN_NAME \
+		--allow-root
+
+	echo "wp -4/5-"
+	wp user create $WP_USER $WP_USER'@'$DOMAIN_NAME \
+				--user_pass=$WP_USERPASS \
+				--allow-root
+	echo "wp -5/5-"
 fi
 echo "Wordpress up!"
 
